@@ -17,7 +17,7 @@ class EventController extends Controller
     {
         $events = Event::where('user_id', Auth::id())->latest()->get();
         
-        return Inertia::render('Events/Index', [
+        return Inertia::render('Events', [
             'events' => $events,
         ]);
     }
@@ -27,7 +27,7 @@ class EventController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Events/Create');
+        return Inertia::render('EventForm');
     }
 
     /**
@@ -41,15 +41,22 @@ class EventController extends Controller
             'date' => 'required|date',
             'time' => 'nullable|date_format:H:i',
             'location' => 'required|string|max:255',
-            'images' => 'nullable|string|max:255',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'csv_path' => 'nullable|string|max:255',
         ]);
 
         $validated['user_id'] = Auth::id();
 
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('users/images'), $imageName);
+            $validated['images'] = 'users/images/' . $imageName;
+        }
+
         Event::create($validated);
 
-        return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');
+        return redirect()->route('dashboard')->with('success', 'Événement créé avec succès.');
     }
 
     /**

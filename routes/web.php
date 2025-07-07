@@ -10,6 +10,8 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
+Route::get('/create-event', [EventController::class, 'create'])->middleware(['auth', 'verified'])->name('create-event');
+Route::post('/events', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('events.store');
 
 
 Route::get('dashboard', function () {

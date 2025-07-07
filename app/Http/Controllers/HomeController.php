@@ -14,8 +14,10 @@ class HomeController extends Controller
     public function index(): Response
     {
         $templates = Template::all();
+         /*
         $formattedTemplates = [];
         
+
         foreach ($templates as $template) {
             $formattedTemplates[] = [
                 'id' => $template->id,
@@ -26,10 +28,10 @@ class HomeController extends Controller
                 'created_at' => $template->created_at,
                 'updated_at' => $template->updated_at,
             ];
-        }
+        }*/
 
         return Inertia::render('Home', [
-            'templates' => $formattedTemplates,
+            'templates' => $templates,
         ]);
     }
 }
