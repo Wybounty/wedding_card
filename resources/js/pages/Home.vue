@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import Template from '@/components/Template.vue';
+
+interface TemplateType {
+    id: number;
+    name: string;
+    description: string;
+    image: string;
+    category: any;
+    created_at: string;
+    updated_at: string;
+}
+
+const props = defineProps<{
+    templates: TemplateType[];
+}>();
+
 </script>
 
 <template>
@@ -33,8 +48,11 @@ import { Head, Link } from '@inertiajs/vue3';
                 </template>
             </nav>
         </header>
-        <main class="flex items-center justify-center w-full min-h-screen flex-col-reverse overflow-hidden bg-black">
-            <h1 class="text-2xl font-bold text-white">HELLO WORLD</h1>
+        <main class="flex items-center justify-center w-full min-h-screen flex-col overflow-hidden bg-black">
+            <h1 class="text-2xl font-bold text-white">NOS TEMPLATES</h1>
+            <div v-for="template in templates" :key="template.id" class="w-full h-full">
+                <Template :template="template" />
+            </div>
         </main>
     </div>
 </template>

@@ -19,7 +19,7 @@ class TemplateController extends Controller
         $templates = Template::with('category')->latest()->get();
         $categories = Category::all();
 
-        return Inertia::render('Templates/Index', [
+        return Inertia::render('Templates', [
             'templates' => $templates,
             'categories' => $categories,
         ]);
